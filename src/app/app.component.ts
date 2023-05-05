@@ -11,18 +11,29 @@ export class AppComponent implements OnInit {
   constructor(public httpGetAdvice:HttpGetAdviceService) {}
 
   advice!: Observable<string>
+  id!: Observable<number>
 
   ngOnInit(){
-    this.advice = this.httpGetAdvice.getHttpAdvice()
+    let getAdvice = this.httpGetAdvice.getHttpAdvice();
+    this.advice = getAdvice
     .pipe(map((res) => {
       return res.slip.advice
+    }))
+    this.id = getAdvice
+    .pipe(map((res) => {
+      return res.slip.id
     }))
   }
 
   getNewAdvice(){
-    this.advice = this.httpGetAdvice.getHttpAdvice()
+    let getAdvice = this.httpGetAdvice.getHttpAdvice();
+    this.advice = getAdvice
     .pipe(map((res) => {
       return res.slip.advice
+    }))
+    this.id = getAdvice
+    .pipe(map((res) => {
+      return res.slip.id
     }))
   }
 
