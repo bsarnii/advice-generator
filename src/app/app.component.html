@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title>Advice #{{id | async}}</mat-card-title>
-  <mat-card-content>"{{advice | async}}"</mat-card-content>
+  <mat-card-content>“{{ advice | async}}”</mat-card-content>
   <img class="divider-desktop" src="assets/pattern-divider-desktop.svg" alt="divider" mat-card-image/>
   <img class="divider-mobile" src="assets/pattern-divider-mobile.svg" alt="divider" mat-card-image/>
   <button (click)="getNewAdvice()">

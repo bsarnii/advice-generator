@@ -13,7 +13,7 @@ export class HttpGetAdviceService {
    private url = "https://api.adviceslip.com/advice/"
 
    getHttpAdvice():Observable<Advice>{
-    let randomNumber = Math.floor(Math.random()*219)
+    let randomNumber = Math.ceil(Math.random()*219)
     return this.http.get<Advice>(this.url+randomNumber)
    }
 }
