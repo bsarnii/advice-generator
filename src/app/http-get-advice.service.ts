@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 
 @Injectable({
@@ -10,12 +10,20 @@ export class HttpGetAdviceService {
 
   constructor(private http: HttpClient) { }
 
-   private url = "https://api.adviceslip.com/advice/"
+  private url = "https://api.adviceslip.com/advice/"
+  private dataSubject:Subject<Advice> = new Subject();
 
-   getHttpAdvice():Observable<Advice>{
+   getData(){
     let randomNumber = Math.ceil(Math.random()*219)
-    return this.http.get<Advice>(this.url+randomNumber)
+    this.http.get<Advice>(this.url+randomNumber).subscribe(
+      data => this.dataSubject.next(data),
+      error => console.log(error)
+    )
    }
+   getDataSubject(){
+    return this.dataSubject.asObservable();
+   }
+
 }
 
 export interface Advice {
@@ -24,3 +32,11 @@ export interface Advice {
     id: number
   }
 }
+export interface Error {
+  message:{
+    type: string
+    text: string
+  }
+}
+
+export type AdviceOrError = Advice | Error

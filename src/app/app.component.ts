@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpGetAdviceService, Advice } from './http-get-advice.service';
+import { HttpGetAdviceService, Advice, Error, AdviceOrError } from './http-get-advice.service';
 import { Observable, map } from 'rxjs';
 
 @Component({
@@ -11,29 +11,27 @@ export class AppComponent implements OnInit {
   constructor(public httpGetAdvice:HttpGetAdviceService) {}
 
   advice!: Observable<string>
-  id!: Observable<number>
+  id!: Observable<number | null>
 
   ngOnInit(){
-    let getAdvice = this.httpGetAdvice.getHttpAdvice();
-    this.advice = getAdvice
-    .pipe(map((res) => {
-      return res.slip.advice
-    }))
-    this.id = getAdvice
-    .pipe(map((res) => {
-      return res.slip.id
-    }))
+    this.getNewAdvice();
   }
 
   getNewAdvice(){
-    let getAdvice = this.httpGetAdvice.getHttpAdvice();
-    this.advice = getAdvice
-    .pipe(map((res) => {
-      return res.slip.advice
+    this.httpGetAdvice.getData();
+    this.advice = this.httpGetAdvice.getDataSubject().pipe(map((res:AdviceOrError) => {
+      if ("slip" in res){
+        return res.slip.advice
+      } else {
+        return res.message.text
+      }
     }))
-    this.id = getAdvice
-    .pipe(map((res) => {
-      return res.slip.id
+    this.id = this.httpGetAdvice.getDataSubject().pipe(map((res:AdviceOrError) => {
+      if ("slip" in res){
+        return res.slip.id
+      } else {
+        return null
+      }
     }))
   }
 
