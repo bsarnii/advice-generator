@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     this.httpGetAdvice.getData();
     this.advice = this.httpGetAdvice.getDataSubject().pipe(map((res:AdviceOrError) => {
       if ("slip" in res){
-        return res.slip.advice
+        return '“'+res.slip.advice+'”'
       } else {
         return res.message.text
       }

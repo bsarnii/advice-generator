@@ -16,8 +16,7 @@ export class HttpGetAdviceService {
    getData(){
     let randomNumber = Math.ceil(Math.random()*219)
     this.http.get<Advice>(this.url+randomNumber).subscribe(
-      data => this.dataSubject.next(data),
-      error => console.log(error)
+      data => this.dataSubject.next(data)
     )
    }
    getDataSubject(){
